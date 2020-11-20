@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ayo SRC Live Chat Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/css/intlTelInput.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/js/intlTelInput.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
+    @import url('https://rsms.me/inter/inter.css');
+    .no-style {
+      background: unset;
+      border: unset;
+    }
+    #minimizeButton:focus{
+      outline: none;
+    }
+    .main-color {
+      background: rgb(231, 0, 24);
+    }
+    .main-text-color {
+      color: rgb(231, 0, 24);
+    }
+    .header{
+      color: white;
+    }
+    .text-xss{
+      font-size: 0.6rem;
+    }
+    .text-xs{
+      font-size: 0.75rem;
+    }
+    .text-ms {
+      font-size: 0.9rem;
+    }
+    .text-sm {
+      font-size: 1rem;
+    }
+    .text-md {
+      font-size: 2rem;
+    }
+    .custom-tooltip:before{
+      content:'';
+      display:block;
+      width:0;
+      height:0;
+      position:absolute;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-right:5px solid rgb(231, 0, 24);
+      left:-5px;
+      top:11px;
+    }
+    .custom-tooltip {
+      position: absolute;
+      top: 0;
+      margin-top: 5px;
+      margin-right: 4px;
+      right: 0;
+      height: auto;
+      display: flex;
+      padding: 3px 8px 3px 8px;
+    }
+    .custom-tooltip > span {
+      margin: auto;
+    }
+    .custom-group-form{
+      display: flex;
+    }
+    .iti {
+      width: 100%;
+      display: flex;
+      font-size: .875rem;
+    }
+    #phone{
+      padding-left: 70px !important;
+    }
+    .iti__flag{
+      display: none;
+    }
+    .iti--separate-dial-code .iti__selected-flag, .iti--separate-dial-code .iti__selected-flag:hover {
+      background-color: unset;
+    }
+    .custom-link {
+      color: black !important;
+      text-decoration: underline;
+    }
+    body::-webkit-scrollbar {
+      display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    body {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      background: #f9f9f9;
+      font-family: 'Nunito Sans', sans-serif;
+    }
+    .form-control:disabled, .form-control[readonly] {
+      background-color: #e7e7e7;
+      border-color: #e7e7e7 !important;
+      opacity: 1;
+    }
+    .custom-checkbox {
+      width: 1rem;
+      height: 1rem;
+      border: 1px solid rgb(153, 153, 153);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .custom-header {
+      display: flex;
+      align-items: center;
+    }
+    .custom-header-subtitle {
+      color: rgba(255, 255, 255, 0.7); 
+      font-size: 0.7rem;
+    }
+    .main-form {
+      background: #f9f9f9;
+      border-radius: 15px 15px 0px 0px;
+    }
+  </style>
+</head>
+<body>
+  <div id="qcwLoginForm" class="main-color">
+    <header>
+      <nav class="navbar main-color header">
+        <div class="navbar-brand text-sm custom-header mr-0">
+          <img :src="liveChatAvatarUrl" width="50px" height="50px" alt="avatar">
+          <div class="ml-3">
+            <div class="mb-1">
+              <b>
+                {{ liveChatTitle }}
+              </b>
+            </div>
+            <div class="custom-header-subtitle">
+              {{ liveChatSubtitle }}
+            </div>
+          </div>
+        </div>
+        <button class="no-style" id="minimizeButton" @click="closeLoginForm">
+          <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x" fill="white" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
+        </button>
+      </nav>    
+    </header>
+    <div class="pt-2 mb-2 main-form">
+      <p class="text-black-50 text-center mb-1 pl-2 pr-2 text-ms">
+        <b style="color: rgba(0,0,0,.7)">Selamat datang di Live Chat SRC!</b> <br>
+        <span>Masukan data dirimu sebelum terhubung dengan Customer Care kami</span>
+      </p>
+      <div class="pl-3 pr-3">
+        <form @submit.prevent="login">
+          <div class="form-group mb-2 position-relative custom-group-form">
+            <input type="text" class="form-control form-control-sm border-white bg-white" name="dataName" placeholder="Nama" v-model="name">
+            <div v-if="showError && !name.trim()" for="dataName" class="text-xs custom-tooltip main-color rounded text-white">
+              <span>Wajib diisi</span>
+            </div>
+          </div>
+          <div class="form-group mb-2 position-relative custom-group-form">
+            <input type="text" class="form-control form-control-sm border-white" name="dataEmail" placeholder="Email" v-model="email">
+            <div v-if="invalid.email && !validateEmail(email)" for="dataEmail" class="text-xs custom-tooltip main-color rounded text-white">
+              <span>Email tidak valid</span>
+            </div>
+          </div>
+          <div class="form-group mb-2 position-relative custom-group-form">
+            <input type="tel" class="form-control form-control-sm border-white" style="width: 100%" name="dataTelephone" placeholder="Nomor Telepon" id="phone" v-model="phoneNumber">
+            <div v-if="invalid.phoneNumber && !validatePhoneNumber(phoneNumber)" for="dataTelephone" class="text-xs custom-tooltip main-color rounded text-white">
+              <span>
+                {{ phoneNumber ? 'Nomor tidak valid' : 'Wajib diisi' }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group mb-2 position-relative custom-group-form">
+            <select class="form-control form-control-sm border-white" name="dataCustomerType" v-model="selectedCustomerType" placeholder="Tipe Pelanggan" :disabled="isLoadCustomerType" @change="getQuestionCategoryAvaible">
+              <option value="no" class="text-black-50">
+                {{ isLoadCustomerType ? 'Sedang memuat...' : 'Anda bertanya sebagai siapa?'}}
+              </option>
+              <option
+                v-for="(customer, key) in customerType"
+                :key="key"
+                :value="customer"
+              >
+                {{ customer.label }}
+              </option>
+            </select>
+            <div v-if="invalid.customerType && selectedCustomerType == 'no'" for="dataCustomerType" class="text-xs custom-tooltip main-color rounded text-white">
+              <span>Wajib diisi</span>
+            </div>
+          </div>
+          <div class="form-group mb-2 position-relative custom-group-form">
+            <select class="form-control form-control-sm border-white" name="dataQuestionType" :disabled="selectedCustomerType === 'no' || isLoadQuestionCategory" v-model="selectedQuestionCategory">
+              <option value="no" class="text-black-50">
+                {{ isLoadQuestionCategory ? 'Sedang memuat...' : 'Pilih kategori pertanyaan Anda' }}
+              </option>
+              <option
+                v-for="(category, key) in questionCathegories"
+                :key="key"
+                :value="category"
+              >
+                {{ category.label }}
+              </option>
+            </select>
+            <div v-if="invalid.questionCategory && selectedQuestionCategory == 'no'" for="dataQuestionType" class="text-xs custom-tooltip main-color rounded text-white">
+              <span>Wajib diisi</span>
+            </div>
+          </div>
+          <div class="form-group mb-2 position-relative custom-group-form">
+            <textarea class="form-control form-control-sm border-white" name="datadetailQuestion" placeholder="Detail Pertanyaan" v-model="detailQuestion"></textarea>
+            <div v-if="invalid.detailQuestion && !detailQuestion.trim()" for="datadetailQuestion" class="text-xs custom-tooltip main-color rounded text-white">
+              <span>Wajib diisi</span>
+            </div>
+          </div>
+          <div class="form-group mb-0 form-check">
+            <input class="form-check-input d-none" type="checkbox" v-model="isAgree">
+            <div class="form-check-input custom-checkbox main-text-color" @click="isAgree = !isAgree">
+              <svg v-if="isAgree" width="100%" height="100%" viewBox="0 0 16 16" class="bi bi-check" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
+              </svg>
+            </div>
+            <label class="ml-2 form-check-label text-xss" for="defaultCheck1">
+              Saya menyatakan bahwa data yang saya sampaikan di atas adalah benar. Saya menggunakan website ini untuk keperluan Pribadi dan saya menyetujui <a href="https://src.id" target="_blank" class="custom-link"><b>syarat & ketentuan</b></a> serta <a href="https://pmiprivacy.com/id/consumer" class="custom-link" target="_blank"><b>pemberitahuan privasi</b></a> yang berlaku di SRC.id
+            </label>
+            <p class="text-xs main-text-color mb-1" :style="`visibility: ${invalid.isAgree && !isAgree ? 'visible' : 'hidden'};`" >
+              <span>Anda harus menyetujui syarat dan ketentuan</span>
+            </p>
+          </div>
+          <button class="text-center btn btn-sm main-color text-white" style="width: 100%;">
+            Kirim
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+  // this base url used to get customerType and questionCathegory, change into production base url once it ready for production live. 
+  const baseUrl = `https://6phdots2mg.execute-api.ap-southeast-1.amazonaws.com/api/v1`
+  
+  /* Config for live chat header and color
+   * you can change the view according what you need.
+   * please note this config does'nt include customization in custom login form, you still need to adapt on file ayo-src-login-form.html
+   */
+  const liveChatAvatarUrl = 'https://iqbaladinur.github.io/ayosrc2/icon_chat.png'
+  const liveChatTitle = 'BuDe'
+  const liveChatSubtitle = 'Live Chat Toko Kelontong Masa Kini'
+
+  var loginForm = new Vue({
+    el: '#qcwLoginForm',
+    data() {
+      return {
+        itl: null,
+        initialCountryCode: 'id',
+        name: '',
+        email: '',
+        phoneNumber: '',
+        customerType: [],
+        questionCathegories: [],
+        selectedCustomerType: 'no',
+        selectedQuestionCategory: 'no',
+        employeeId: '',
+        employeeName: '',
+        detailQuestion: '',
+        isAgree: false,
+        showError: false,
+        invalid: {
+          email: false,
+          phoneNumber: false,
+          customerType: false,
+          questionCategory: false,
+          detailQuestion: false,
+          employeeName: false,
+          employeeId: false,
+          isAgree: false
+        },
+        jquery: $,
+        axios,
+        isLoadCustomerType: true,
+        isLoadQuestionCategory: false,
+        liveChatAvatarUrl,
+        liveChatTitle,
+        liveChatSubtitle
+      }
+    },
+    methods: {
+      sendMessage(msg) {
+          window.parent.postMessage(msg, '*');
+      },
+      closeLoginForm() {
+          this.sendMessage({
+              event_name: 'close-login-form',
+          })
+      },
+      login() {
+        const conditionalExtras = {}
+        this.showError = false
+        let validationStatus = true
+
+        if (!this.name.trim()) {
+          this.showError = true
+          validationStatus = validationStatus && false
+        }
+        if (!this.validateEmail(this.email)) {
+          this.invalid.email = true
+          validationStatus = validationStatus && false
+        } else {
+          this.invalid.email = false
+        }
+        if (!this.validatePhoneNumber(this.phoneNumber)) {
+          this.invalid.phoneNumber = true
+          validationStatus = validationStatus && false
+        } else {
+          this.invalid.phoneNumber = false
+        }
+        if (this.selectedCustomerType == 'no') {
+          this.invalid.customerType = true
+          validationStatus = validationStatus && false
+        } else {
+          this.invalid.customerType = false
+        }
+        if (this.selectedQuestionCategory == 'no') {
+          this.invalid.questionCategory = true
+          validationStatus = validationStatus && false
+        } else {
+          this.invalid.questionCategory = false
+        }
+        if (!this.detailQuestion.trim()) {
+          this.invalid.detailQuestion = true
+          validationStatus = validationStatus && false
+        } else {
+          this.invalid.detailQuestion = false
+        }
+        if (!this.isAgree) {
+          this.invalid.isAgree = true
+          validationStatus = validationStatus && false
+        } else {
+          this.invalid.isAgree = false
+        }
+        if (this.email.trim()) {
+          conditionalExtras['email'] = this.email.trim()
+        }
+        if (validationStatus) {
+          const phoneNumberMerged = `${this.itl.s.dialCode}${this.phoneNumber}`
+          const logInData = {
+            event_name: 'login',
+            unique_id: phoneNumberMerged,
+            display_name: this.name,
+          }
+          const sendQuestionDetail = {
+            event_name: 'qcw_save_question',
+            detailQuestion: this.detailQuestion
+          }
+          const escapedDetailInquiry = this.detailQuestion.replace(/\n/g, "\\n")
+          const extrasData = { 
+            'channel': 'Chat',
+            'username': this.name, 
+            'phonenumber': phoneNumberMerged,
+            'city': null,
+            'storename': null, 
+            'ismscode': null,
+            'status': "Open",
+            'usercategory': this.selectedCustomerType.label,
+            'inquirycategory': this.selectedQuestionCategory.label,
+            'detailedinquiry': escapedDetailInquiry,
+            ...conditionalExtras
+          }
+          const sendSetExtras = {
+            event_name: 'qcw_set_extras',
+            extras: extrasData
+          }
+          this.sendMessage(sendSetExtras)
+          this.sendMessage(sendQuestionDetail)
+          this.sendMessage(logInData)
+        }
+      },
+      validateEmail(email) {
+          const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          if (email.trim()) {
+            return re.test(String(email).toLowerCase());
+          } else {
+            return true
+          }
+      },
+      validatePhoneNumber(number) {
+        const firstNumber = number ? `${number}`.substr(0, 1) : null
+        if (!isNaN(number)) {
+          if (firstNumber != '0' && firstNumber && `${number}`.length <= 15) {
+            return true
+          } else {
+            return false
+          }
+        } else {
+          return false
+        }
+      },
+      validateEmployeeId() {
+        const reg = /^\d+$/;
+        if (this.employeeId && reg.test(this.employeeId)) {
+          return true
+        } else {
+          return false
+        }
+      },
+      intiateIntlTel() {
+        const input = document.querySelector('#phone')
+        this.itl = intlTelInput(input, {
+          initialCountry: this.initialCountryCode ? this.initialCountryCode : "id",
+          separateDialCode: true,
+        })
+      },
+      getCostumerTypes() {
+        const url = `${baseUrl}/customer_types`
+        this.isLoadCustomerType = true
+        this.axios.get(url)
+          .then(res => {
+            const mapCostumerType = res.data.choices.map(opt => {
+              return {
+                id : opt.id_str,
+                label: opt.value,
+                questionId: opt.question_category_ids,
+                position: opt.position
+              }
+            })
+            this.customerType = mapCostumerType
+            this.isLoadCustomerType = false
+          })
+          .catch(err => {
+            this.isLoadCustomerType = true
+          }) 
+      },
+      getQuestionCategoryAvaible() {
+        if (this.selectedCustomerType == 'no') {
+          return false
+        }
+        const getIdSelectedQuestion = this.selectedCustomerType.questionId.join(',')
+        const url = `${baseUrl}/question_categories?ids=${getIdSelectedQuestion}`
+        this.isLoadQuestionCategory = true
+        this.selectedQuestionCategory = 'no'
+        this.axios.get(url)
+          .then(res => {
+            const mapQuestion = res.data.choices.map(opt => {
+              return {
+                id : opt.id_str,
+                label: opt.value,
+                position: opt.position
+              }
+            })
+            this.questionCathegories = mapQuestion
+            this.isLoadQuestionCategory = false
+          })
+          .catch(err => {
+            this.isLoadQuestionCategory = true
+          }) 
+      }
+    },
+    mounted() {
+      this.intiateIntlTel()
+      this.getCostumerTypes()
+    }
+  })
+</script>
+</html>
