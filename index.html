@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ayo SRC Main Page</title>
+
+  <!-- START OF CUSTOM STYLE WIDGET -->
+  <style>
+    #qcw-login-form-iframe, #qcw-iframe {
+      height: 550px !important;
+      bottom: 30px !important;
+    }
+    .qcw-trigger-btn{
+      display: none !important;
+    }
+    .qcw-custom-trigger-btn{
+      background-color: rgba(0, 0, 0, 0);
+      color: #fff;
+      padding: 2px 4px 0px 4px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: all .3s ease;
+      border: 0;
+      outline: 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      position: fixed;
+      bottom: 20px;
+      right: 42px;
+      display: relative;
+      z-index: 999999;
+    }
+    .qcw-custom-trigger-btn-icon{
+      box-shadow: 0 7px 16px rgba(46, 46, 46, .15);
+      border-radius: 50%;
+      width: 80px;
+    }
+    .qcw-badge-notif{
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      background: rgb(36, 226, 18);
+      border-radius: 10px;
+      margin-top: -3px;
+      margin-right: -3px;
+      display: none;
+    }
+    @media only screen and (max-width: 500px) {
+      #qcw-login-form-iframe, #qcw-iframe {
+        height: 100% !important;
+        width: 100% !important;
+        border-radius: 0px !important;
+        bottom: 0 !important;
+        right: 0 !important;
+      }
+      .qcw-custom-trigger-btn-icon {
+        width: 60px;
+      }
+    }
+  </style>
+  <!-- END OF CUSTOM STYLE WIDGET -->
+
+</head>
+<body>
+  <p>
+    ini adalah landing page
+  </p>
+  
+  <!-- custom button -->
+  <button class="qcw-custom-trigger-btn">
+    <span>
+      <img src="./icon_chat.png" alt="icon_chat" class="qcw-custom-trigger-btn-icon">
+    </span>
+    <span class="qcw-badge-notif"></span>
+  </button>
+  <!-- end of custom button -->
+  
+  <!-- START OF QISCUS WIDGET -->
+  <script>
+      function qiscusWidgetLogout() {
+        localStorage.removeItem('qismo-widget')
+        localStorage.removeItem('extras')
+        window.location.reload()
+      }
+      function qiscusWidgetshowBadge(show = true) {
+        const qcwBadgeNotif = document.querySelector('.qcw-badge-notif')
+        if (show) {
+          qcwBadgeNotif.style.display = 'block'
+        } else {
+          qcwBadgeNotif.style.display = 'none'
+        }
+      }
+      
+      /* Config for live chat header and color
+       * you can change the view according what you need.
+       * please note this config does'nt include customization in custom login form, you still need to adapt on file ayo-src-login-form.html
+       */
+      const liveChatAvatarUrl = 'https://iqbaladinur.github.io/ayosrc2/icon_chat.png'
+      const liveChatTtitle = 'BuDe'
+      const liveChatSubtitle = 'Live Chat Toko Kelontong Masa Kini'
+      const liveChatMainColor = 'rgb(231, 0, 24)'
+
+      var customOption = {
+          options: {
+            // SET channel ID see on https://multichannel.qiscus.com/integration
+            channel_id: 1282,
+            merge_properties: true,
+            // SET URL LOCATION FOR CUSTOM LOGIN FORM
+            loginFormUrl: 'https://d1edrlpyc25xu0.cloudfront.net/karm-gzu41e4e4dv9fu3f/raw/upload/qJ0JyTQvmc/ayo-src-login-form.html',
+            widgetCustomCSS: `.qcw-header { background: ${liveChatMainColor} !important; border-bottom: 0px }` +
+                            `.qcw-main { background: ${liveChatMainColor} }` + 
+                            `.qcw-header-avatar img { display: none } .qcw-user-status.qcw-user-status--group { display: none }` +
+                            `.qcw-header .qcw-header-avatar { flex: none }` +
+                            `.qcw-header-avatar { background-image: url('${liveChatAvatarUrl}'); width: 50px; height: 50px; background-size: cover; background-repeat: no-repeat; border-radius: 50%; }` +
+                            `.qcw-comment .qcw-avatar img { display: none } .qcw-comment .qcw-avatar { flex: none; width: 50px; display: flex; align-items: flex-end; justify-content: center; }` +
+                            `.qcw-comment .qcw-avatar:after { content: ''; width: 50px; height: 50px; background-image: url('${liveChatAvatarUrl}'); background-size: cover; border-radius: 50%; }` +
+                            '.qcw-comment__message .tip {display: none}' +
+                            `.qcw-comment.comment--me .qcw-comment__message { background: ${liveChatMainColor} !important; border-radius: 15px 15px 0px 15px !important; position: relative; z-index: 2 !important; color: white }` +
+                            `.qcw-comment:not(.comment--me) .qcw-comment__message { background: #f9f9f9 !important; color: black; border-radius: 15px 15px 15px 0px !important; position: relative; z-index: 1 !important; }` +
+                            `.qcw-comment:not(.comment--me) .qcw-comment__message .qcw-comment__username { display:none }` +
+                            `.qcw-comment__more:hover, .reply-btn:hover { background-color: gray !important;}` + 
+                            `.qcw-comment__more--menu ul li:hover { color: ${liveChatMainColor}} .qcw-comment__more--menu ul { z-index: 3; position: absolute }` +
+                            `.qcw-window-toggle-btn svg { display: none } .qcw-window-toggle-btn:after{ content:''; width: 20px; height: 20px; background-image: url("data:image/svg+xml,%3Csvg width='2em' height='2em' viewBox='0 0 20 20' fill='white' xmlns='http://www.w3.org/2000/svg' class='bi bi-x'%3E%3Cpath fill-rule='evenodd' d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'%3E%3C/path%3E%3C/svg%3E"); }` +
+                            `.qcw-user-display-name{ display: none !important } .qcw-header-info div{ display:flex; flex-direction: column; } .qcw-header-info div:before { content: '${liveChatTtitle}'; color: white; font-weight: bold } .qcw-header-info div:after { content: '${liveChatSubtitle}'; color: rgba(255, 255, 255, 0.7); font-size: 0.7rem; }` +
+                            `.qcw-image-modal__container { z-index: 3 }` + 
+                            `.qcw-comments { border-radius: 15px 15px 0px 0px; background: white; }` + 
+                            `.qcw-comment-form { background: #f9f9f9; padding: 8px 8px 18px 8px; border: none; } .qcw-comment-form textarea { margin-right: 4px; border-radius: 5px; background: white; height: 42px; padding: 5px 5px 15px 5px; }` +
+                            `.qcw-comment-form i { background: ${liveChatMainColor}; margin: 0px 2px; border-radius: 5px; padding: 3px 5px;} .qcw-comment-form svg { fill: white !important; widht: 1rem; height: 1rem;} .qcw-upload-form svg { fill: #666 !important }` +
+                            `.qcw-comment-form textarea+i { display:flex; align-items: center; padding-top: 5px; padding-bottom: 5px } .qcw-comment-form textarea+i svg {display:none} .qcw-comment-form textarea+i:before { content:''; width: 1.5em; height: 1.5em; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='none' d='M0 0h24v24H0z'/%3E%3Cpath d='M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z' fill='rgba(255,255,255,1)'/%3E%3C/svg%3E");}`
+          },
+          onRoomChanged(data) {
+            const displayStatusChat = document.getElementById('qcw-iframe').style.display
+            if (displayStatusChat == 'block') {
+              window.newMessagesQiscusWidget = 0
+              qiscusWidgetshowBadge(false)
+            }
+            const detailQuestion = qcw_first_message
+            qcw_first_message = null
+            if (detailQuestion) {
+              QismoAPP.sendMessage({
+                event_name: 'send-message',
+                text: detailQuestion,
+              })
+              QismoAPP.widget.toggleWidget()
+            }
+            if (data.comments.length < 1 && !detailQuestion) {
+              qiscusWidgetLogout()
+            }
+          },
+          onNewMessages(data) {
+            const displayStatusChat = document.getElementById('qcw-iframe').style.display
+            const userType = data[0].user_extras.type
+            if (displayStatusChat == 'block') {
+              window.newMessagesQiscusWidget = 0
+              qiscusWidgetshowBadge(false)
+            }
+            if (data[0].type === 'system_event' && data[0].payload.payload.type === 'resolve_conversation') {
+              qiscusWidgetLogout()
+            } else if(userType === 'agent'){
+              if ( displayStatusChat == 'none') {
+                window.newMessagesQiscusWidget += 1
+                qiscusWidgetshowBadge()
+              }
+            }
+          }
+      }
+      // Init Qiscus chat widget
+      document.addEventListener('DOMContentLoaded', function() {
+          var s,t; s = document.createElement('script'); s.type = 'text/javascript';
+          s.src = 'https://s3-ap-southeast-1.amazonaws.com/qiscus-sdk/public/qismo/qismo-v4.js';
+          s.async = true;
+          s.onload = s.onreadystatechange = function() {
+            const existedExtras = localStorage.getItem('extras')
+            if (existedExtras) {
+              customOption.options.extras = existedExtras
+            }
+            // Set multi channel AppID according your account.
+            window.QismoAPP = new Qismo("ofle-qm9wadiam8zza5sn", customOption);
+            window.qcw_first_message = null
+            window.newMessagesQiscusWidget = 0;
+          }
+          t = document.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s, t);
+          
+          // custom button trigger listener
+          document.querySelector(".qcw-custom-trigger-btn").addEventListener("click",function(){
+            const qismoObject = window.QismoAPP
+            if(!qismoObject) {
+              return false
+            }
+
+            this.style.visibility = 'hidden'
+            document.querySelector(".qcw-trigger-btn").click()
+            setTimeout(function() {
+              if (document.getElementById('qcw-iframe') && document.getElementById('qcw-iframe').style.display != 'none') {
+                window.newMessagesQiscusWidget = 0
+                qiscusWidgetshowBadge(false)
+              }
+            }, 3000)
+          });
+      });
+      window.addEventListener('message', (p) => {
+        if (p.data.event_name == 'qcw_save_question') {
+          window.qcw_first_message = p.data.detailQuestion
+        }
+        if (p.data.event_name == 'qcw_set_extras') {
+          const extras = p.data.extras
+          extras['platform'] = window.origin
+          const stringExtras = JSON.stringify(extras)
+          localStorage.setItem('extras', stringExtras)
+          QismoAPP.options.extras = stringExtras
+        }
+        if (p.data.event_name == 'toggle-widget') {
+          document.querySelector(".qcw-custom-trigger-btn").style.visibility = 'visible'
+        }
+        if (p.data.event_name == 'close-login-form') {
+          document.querySelector(".qcw-custom-trigger-btn").style.visibility = 'visible'
+        }
+      });
+  </script>
+  <!-- END OF QISCUS WIDGET -->
+
+</body>
+</html>
